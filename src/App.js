@@ -1,26 +1,54 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import Person from "./Persons/Persons";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    persons: [
+      { id: "sdngkj2", name: "hassan", old: 12 },
+      { id: "dasdf2", name: "hasAN", old: 15 },
+      { id: "fsa1", name: "haSssan", old: 13 }
+    ],
+
+    showData: false
+  };
+  ClickHandler = e => {
+    this.setState({ persons: e.target.value });
+  };
+  toggleHandler = () => {
+    const DoeShow = this.state.showData;
+    this.setState({ showData: !DoeShow });
+  };
+  deleteHandler = index => {
+    const persons = [...this.state.persons];
+    persons.splice(index, 1);
+    this.setState({ persons: persons });
+  };
+
+  render() {
+    const { persons, showData } = this.state;
+
+    return (
+      <div>
+        <button onClick={this.toggleHandler}>Click me</button>
+        {showData ? (
+          <div className="toggleHandle">
+            {persons.map((person, index) => {
+              return (
+                <div>
+                  <Person
+                    name={person.name}
+                    age={person.old}
+                    key={persons.id}
+                    delete={() => this.deleteHandler(index)}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        ) : null}
+      </div>
+    );
+  }
 }
 
 export default App;
